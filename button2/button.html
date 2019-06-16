@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>bottom</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="boton.css">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<div id="button-background">
+		<!-- <span class="slide-text">Swipe</span> -->
+		<span class="slide-text">Online > ></span>
+		<div id="slider">
+			<!-- <i id="locker" class="material-icons">power_settings_new</i> -->
+			<i id="locker" class=""></i>
+		</div>
+	</div>
+</body>
+<script>
+	var initialMouse = 0;
+	var slideMovementTotal = 0;
+	var mouseIsDown = false;
+	var slider = $('#slider');
+
+	slider.on('mousedown touchstart', function (event) {
+		mouseIsDown = true;
+		slideMovementTotal = $('#button-background').width() - $(this).width() + 10;
+		initialMouse = event.clientX || event.originalEvent.touches[0].pageX;
+		console.log(slideMovementTotal)
+	});
+
+	$(document.body, '#slider').on('mouseup touchend', function (event) {
+		if (!mouseIsDown) {
+			return;
+		}
+		mouseIsDown = false;
+		var currentMouse = event.clientX || event.changedTouches[0].pageX;
+		var relativeMouse = currentMouse - initialMouse;
+
+		if (relativeMouse < slideMovementTotal) {
+			$('.slide-text').fadeTo(300, 1);
+			slider.animate({
+				left: "-10px"
+			}, 300);
+			return;
+		}
+		slider.addClass('unlocked');
+		$('#locker').text('click Ofline');
+		$('#slider').css({ 'background': 'green' });
+		setTimeout(function () {
+			slider.on('click tap', function (event) {
+				if (!slider.hasClass('unlocked'))
+					return;
+				slider.removeClass('unlocked');
+				$('#locker').text('');
+				$('#slider').css({ 'background': 'red' });
+				slider.off('click tap');
+			});
+		}, 0);
+	});
+
+	$(document.body).on('mousemove touchmove', function (event) {
+		if (!mouseIsDown)
+			return;
+
+		var currentMouse = event.clientX || event.originalEvent.touches[0].pageX;
+		var relativeMouse = currentMouse - initialMouse;
+		var slidePercent = 1 - (relativeMouse / slideMovementTotal);
+
+		$('.slide-text').fadeTo(0, slidePercent);
+
+		if (relativeMouse <= 0) {
+			slider.css({ 'left': '-10px' });
+			return;
+		}
+		if (relativeMouse >= slideMovementTotal + 10) {
+			slider.css({ 'left': slideMovementTotal + 'px' });
+			return;
+		}
+		slider.css({ 'left': relativeMouse - 10 });
+	});
+
+</script>
+
+</html>

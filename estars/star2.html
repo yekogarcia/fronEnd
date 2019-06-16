@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+*{
+  box-sizing:border-box;
+}
+.rating {
+  text-align: center;
+  width:100%;
+  border:1px solid white;
+  padding:2em;
+  
+  input[name="star"] {
+    display: none;
+    width: 0;
+    opacity: 0;
+    margin-left: -2px;
+  }
+  
+  input[name="star"]:focus ~ label svg {
+      fill: #f2a200;
+    }
+     input[name="star"]:checked ~ label svg {
+      fill: #f2a200;
+    }
+  span {
+    display: inline-block;
+    position: relative;
+    float: right;
+    label {
+      float: right;
+      cursor: pointer;
+
+      svg {
+        fill: #CCC;
+        color: transparent;
+        transition: color 0.2s ease-in-out;
+        width: 50px;
+        height: 50px;
+      }
+
+      &:hover {
+        svg {
+          fill: #f2a200;
+        }
+
+        ~ label {
+          svg {
+            fill: #f2a200;
+          }
+
+          &.half {
+            svg {
+              fill: #f2a200;
+            }
+          }
+        }
+      }
+
+      &.half {
+        overflow: hidden;
+        position: absolute;
+        width: 25px;
+        svg {
+          fill: none;
+        }
+
+        &:hover {
+          svg {
+            fill: #f2a200;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      ~ span label svg {
+        fill: #f2a200;
+      }
+    }
+
+    &.active ~ span {
+      label svg {
+        fill: #f2a200;
+      }
+    }
+  }
+}
+
+/*presentational styles*/
+html{
+  margin:0;
+  padding:0;
+}
+body {
+  background: #005C97;
+background: -webkit-linear-gradient(to bottom, #363795, #005C97); 
+background: linear-gradient(to bottom, #363795, #005C97); 
+  height:100%;
+  color: white;
+  font-family: 'Source Sans Pro', sans-serif;
+  padding:0;
+  margin:0;
+}
+
+.container {
+  width: 40em;
+  margin: 0 auto;
+}
+fieldset {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+}
+
+small {
+  display: block;
+  text-align: right;
+}
+h2 {
+  text-align: center;
+  text-transform: capitalize;
+  code{
+    text-transform:lowercase;
+  }
+}
+p{
+  line-height:1.5;
+  margin-bottom:1em;
+}
+footer{
+  width:100%;
+  padding: 2em 0;
+  background: darken(#363795, 5%);
+  
+  a{
+    color: #fefefe;
+    transition: color .2s ease-in;
+    
+    &:hover{
+      color:#cbb4d4;
+    }
+  }
+  h3{
+    text-transform: capitalize;
+  }
+}
+
+</style>
+
+<body>
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden" version="1.1"
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <symbol id="star" viewBox="0 0 28 28" preserveAspectRatio="xMaxYMax meet">
+            <title>Star Rating</title>
+            <path class="star"
+                d="M13.996,22.501 L22.649,27.997 L20.352,17.637 L27.996,10.667 L17.930,9.768 L13.996,-0.003 L10.063,9.768 L-0.003,10.667 L7.641,17.637 L5.345,27.997 L13.996,22.501 Z" />
+        </symbol>
+    </svg>
+
+
+    <div class="container">
+        <h2>Star rating widget with SVG <code>&lt;use&gt;</code></h2>
+        <p>I needed a star rating widget that uses SVG and is able to highlight half star (like: 4.5 stars) - and this
+            is my solution.</p>
+        <p>It uses a bit of jQuery, because unlike psedu classes, I had to position it relatively to a container, so
+            sibiling selectors are out. To show the finished rating system, a little script is used. It adds a class to
+            the parent, so that the SVG can change the fill. </p>
+        <div class="rating">
+            <fieldset class="rating-fieldset">
+                <span><input type="checkbox" id="star5" class="rating-checkbox" value="5" name="star" /><label
+                        class="full" for="star5" title="Awesome - 5 stars">
+                        <svg role="img" aria-label="rating">
+                            <use xlink:href="#star"></use>
+                        </svg>
+                    </label>
+                    <input type="checkbox" id="star4half" class="rating-checkbox" value="4.5" name="star" /><label
+                        class="half" for="star4half" title="Pretty good - 4.5 stars" name="star"> <svg role="img"
+                            aria-label="rating">
+                            <use xlink:href="#star"></use>
+                        </svg>
+                    </label></span>
+               
+                <small>Rate Now</small>
+            </fieldset>
+        </div>
+        <p>One obvious enhancement would be to apply gradient to the SVG, and it is something I plan on implementing as
+            soon as my queue clears up!</p>
+    </div>
+
+    <footer>
+        <div class="container">
+            <h3>Credit & Some more reading</h3>
+            <ul>
+                <li>Sara Souidan on <a
+                        href="https://www.smashingmagazine.com/2014/11/styling-and-animating-svgs-with-css/"
+                        target="_blank">Styling and animating SVG<a /></li>
+                <li>Beautiful background gradient from <a href="https://uigradients.com/"
+                        target="_blank">uigradients.com</a></li>
+            </ul>
+
+        </div>
+    </footer>
+</body>
+<script>
+    $(document).ready(function () {
+        var ratingElem = $('.rating input[name="star"]');
+
+        ratingElem.change(function () {
+            if (this.checked) {
+                $(this).parent().addClass("active");
+            }
+        });
+    });
+
+</script>
+
+</html>

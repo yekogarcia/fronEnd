@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mi App</title>
+</head>
+
+<body>
+    <h1>Inicia Sesion</h1>
+    <button id="login">Inicia con google</button>
+    <br> <br>
+    <button>Inicia con facebook</button>
+    <div id="root">
+        <div>
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+            <!-- The core Firebase JS SDK is always required and must be listed first -->
+            <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+
+            <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+            <script>
+                // Your web app's Firebase configuration
+                var firebaseConfig = {
+                    apiKey: "AIzaSyDEE-8KWQ9kdy2l12QP3Gdfbn9YSOipoc8",
+                    authDomain: "mi-app-c04bd.firebaseapp.com",
+                    databaseURL: "https://mi-app-c04bd.firebaseio.com",
+                    projectId: "mi-app-c04bd",
+                    storageBucket: "mi-app-c04bd.appspot.com",
+                    messagingSenderId: "147201625851",
+                    appId: "1:147201625851:web:069b84a8c2e68487"
+                };
+                // Initialize Firebase
+                firebase.initializeApp(firebaseConfig);
+            </script>
+            <script src="app.js"></script>
+</body>
+
+</html>
